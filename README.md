@@ -11,9 +11,9 @@ A C# port of the [samwise Ruby gem](https://github.com/18F/samwise) for the SAM.
 
 ## Usage
 
-Requires [.NET Core](https://www.microsoft.com/net/download/core).
-
-Example
+* Requires [.NET Core](https://www.microsoft.com/net/download/core). 
+* Restore dependencies and build projects by running the ```build.sh``` script.
+* Example usage:
 
 ```csharp
 using System;
@@ -37,9 +37,9 @@ namespace SamDotNet.Demo
 }
 ```
 
-Invoke thusly: ```~$ dotnet run "DEMO_KEY" "1459697830000" ```
+* Invoke thusly: ```~$ dotnet run "DEMO_KEY" "1459697830000" ```
 
-Result
+* Result:
 
 ```json
 {
