@@ -1,8 +1,6 @@
-using System;
 using Xunit;
-using SamDotNet;
-using Newtonsoft.Json.Linq;
 using SamDotNet.Helpers;
+using System.Reflection;
 
 namespace SamDotNet.Tests
 {
@@ -12,33 +10,100 @@ namespace SamDotNet.Tests
         private readonly string key = "DEMO_KEY";
 
         [Fact]
-        public void Valid_Duns_Test()
+        public void Check_Duns_Info_Method()
         {
             // Assemble
-            Sam testSam = new Sam(client, key);
-            var expected = typeof(JObject);
+            Sam testSam = new Sam(key);
 
             // Act
-            var actual = testSam.GetDunsInfo("1459697830000");
+            var type = testSam.GetType();
+            MethodInfo methodInfo = type.GetMethod("GetDunsInfo");
 
             // Assert
-            Assert.IsType(expected, actual);
-            Assert.NotNull(actual.GetValue("sam_data"));
+            Assert.NotNull(methodInfo);
         }
 
         [Fact]
-        public void Invalid_Duns_Test()
+        public void Check_Sam_Status_Method()
         {
             // Assemble
-            Sam testSam = new Sam(client, key);
-            var expected = typeof(JObject);
+            Sam testSam = new Sam(key);
 
             // Act
-            var actual = testSam.GetDunsInfo("0000000000000");
+            var type = testSam.GetType();
+            MethodInfo methodInfo = type.GetMethod("GetSamStatus");
 
             // Assert
-            Assert.IsType(expected, actual);
-            Assert.NotNull(actual.GetValue("error"));
+            Assert.NotNull(methodInfo);
+        }
+
+        [Fact]
+        public void Check_Valid_Http_clinet()
+        {
+            // Assemble
+            HTTPClient client = new HTTPClient(Endpoints.SamApiBaseUrl);
+
+            // Act
+            var type = client.GetType();
+            MethodInfo methodInfo = type.GetMethod("MakeAPICall");
+
+            // Assert
+            Assert.NotNull(methodInfo);
+        }
+
+        [Fact]
+        public void Check_Sam_Api_Base_Url()
+        {
+            // Assemble
+            var url = Endpoints.SamApiBaseUrl;
+
+            // Assert
+            Assert.NotEmpty(url);
+
+        }
+
+        [Fact]
+        public void Check_Sam_Status_Url()
+        {
+            // Assemble
+            var url = Endpoints.SamStatusUrl;
+
+            // Assert
+            Assert.NotEmpty(url);
+
+        }
+
+        [Fact]
+        public void Check_API_Version_Number()
+        {
+            // Assemble
+            var version = Endpoints.SamApiVersion;
+
+            // Assert
+            Assert.NotEmpty(version);
+
+        }
+
+        [Fact]
+        public void Check_Duns_Info_Path_Template()
+        {
+            // Assemble
+            var template = Endpoints.DunsInfoPathTemplate;
+
+            // Assert
+            Assert.NotEmpty(template);
+
+        }
+
+        [Fact]
+        public void Check_Status_Path_Template()
+        {
+            // Assemble
+            var template = Endpoints.StatusPathTemplate;
+
+            // Assert
+            Assert.NotEmpty(template);
+
         }
     }
 }

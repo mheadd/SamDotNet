@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 
 namespace SamDotNet.Helpers
 {
-    public interface IHTTPClient
+    public interface IHTTPClient: IDisposable
     {
         string MakeAPICall(string path);
     }
@@ -43,6 +43,10 @@ namespace SamDotNet.Helpers
                     throw new HTTPClientException("An error occured.");
                 }
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 }
