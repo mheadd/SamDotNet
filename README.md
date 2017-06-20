@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mheadd/SamDotNet.svg?branch=master)](https://travis-ci.org/mheadd/SamDotNet)
+
 # SamDotNet
 
 A C# port of the [samwise Ruby gem](https://github.com/18F/samwise) for the SAM.gov API.
