@@ -15,7 +15,7 @@ A C# port of the [samwise Ruby gem](https://github.com/18F/samwise) for the SAM.
 
 * Requires [.NET Core](https://www.microsoft.com/net/download/core). 
 * Install package from [Nuget](https://www.nuget.org/packages/SamDotNet/1.0.0): ```~$ dotnet add package SamDotNet```
-* Altenratively, you can clone this repo. Restore dependencies and build projects by running the ```build.sh``` script.
+* Alternatively, you can clone this repo. Restore dependencies and build projects by running the ```build.sh``` script.
 * Example usage:
 
 ```csharp
