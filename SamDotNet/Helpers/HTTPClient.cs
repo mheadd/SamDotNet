@@ -31,10 +31,11 @@ namespace SamDotNet.Helpers
 
                 try
                 {
-                    string response = client.GetStringAsync(path).Result;
+                    var result = client.GetStringAsync(path);
+                    string response = result.Result;
                     return response;
                 }
-                catch (HttpRequestException ex)
+                catch (AggregateException ex)
                 {
                     throw new HTTPClientException(ex.Message);
                 }

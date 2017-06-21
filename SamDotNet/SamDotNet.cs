@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SamDotNet.Helpers;
 
@@ -48,16 +49,18 @@ namespace SamDotNet
         }
 
         /// <summary>
-        /// Utility method to build path for API call.
+        /// Check if a DUNS number exists in SAM.gov
         /// </summary>
-        /// <param name="pathTemplate">The string template used to build the path.</param>
-        /// <param name="args">Arguments used to format the string and generate a path</param>
-        /// <returns>String representing the path to be used when making an API call</returns>
-        private string BuildPath(string pathTemplate, string[] items)
+        /// <param name="duns">The DUNS number to check.</param>
+        /// <returns>JSON Object with API response or error message</returns>
+        public JObject CheckDunsInSam(string duns)
         {
-            return String.Format(pathTemplate, items);
+            var status = GetSamStatus(duns);
+            var result = (status.GetValue("sam_data") != null);
+            string response = "{\"result\": \"" + result.ToString().ToLower() + "\"}";
+            return FormatJson(response);
         }
-        
+
         /// <summary>
         /// Utilty method to make API call.
         /// </summary>
@@ -71,13 +74,34 @@ namespace SamDotNet
                 using (HTTPClient client = new HTTPClient(baseUrl))
                 {
                     string response = client.MakeAPICall(path);
-                    return JObject.Parse(response);
+                    return FormatJson(response);
                 }
             }
             catch (HTTPClientException ex)
             {
-                return JObject.Parse("{\"error\": \"" + ex.Message + "\"}");
+                return FormatJson("{\"error\": \"" + ex.Message + "\"}");
             }
+        }
+
+        /// <summary>
+        /// Utility method to build path for API call.
+        /// </summary>
+        /// <param name="pathTemplate">The string template used to build the path.</param>
+        /// <param name="args">Arguments used to format the string and generate a path</param>
+        /// <returns>String representing the path to be used when making an API call</returns>
+        private string BuildPath(string pathTemplate, string[] items)
+        {
+            return String.Format(pathTemplate, items);
+        }
+
+        /// <summary>
+        /// Utility method to format JSON.
+        /// </summary>
+        /// <param name="obj">The object to be converted to JSON.</param>
+        /// <returns>JSON string</returns>
+        private JObject FormatJson(string str)
+        {
+            return JObject.Parse(str);
         }
     }
 }
