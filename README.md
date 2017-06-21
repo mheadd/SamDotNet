@@ -16,7 +16,30 @@ A C# port of the [samwise Ruby gem](https://github.com/18F/samwise) for the SAM.
 * Requires [.NET Core](https://www.microsoft.com/net/download/core). 
 * Install package from [Nuget](https://www.nuget.org/packages/SamDotNet/1.0.0): ```~$ dotnet add package SamDotNet```
 * Alternatively, you can clone this repo. Restore dependencies and build projects by running the ```build.sh``` script.
-* Example usage:
+
+### Verify DUNS number is in SAM.gov
+
+```csharp
+Sam sam = new Sam(key);
+var result = sam.CheckDunsInSam("1459697830000");
+```
+
+```json
+{"result":"true"}
+```
+
+### Verify Vendor is not on the excluded parties list
+
+```csharp
+Sam sam = new Sam(key);
+var result = sam.CheckForExclusions("1459697830000");
+```
+
+```json
+{"result":"false"}
+```
+
+### Get DUNS info
 
 ```csharp
 using System;
