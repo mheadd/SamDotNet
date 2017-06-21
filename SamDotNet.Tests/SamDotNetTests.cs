@@ -52,6 +52,20 @@ namespace SamDotNet.Tests
         }
 
         [Fact]
+        public void Verify_Not_Excluded_Method()
+        {
+            // Assemble
+            Sam testSam = new Sam(key);
+
+            // Act
+            var type = testSam.GetType();
+            MethodInfo methodInfo = type.GetMethod("CheckForExclusions");
+
+            // Assert
+            Assert.NotNull(methodInfo);
+        }
+
+        [Fact]
         public void Check_Valid_Http_clinet()
         {
             // Assemble

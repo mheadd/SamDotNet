@@ -55,9 +55,17 @@ namespace SamDotNet
         /// <returns>JSON Object with API response or error message</returns>
         public JObject CheckDunsInSam(string duns)
         {
-            var status = GetSamStatus(duns);
+            var status = GetDunsInfo(duns);
             var result = (status.GetValue("sam_data") != null);
             string response = "{\"result\": \"" + result.ToString().ToLower() + "\"}";
+            return FormatJson(response);
+        }
+
+        public JObject CheckForExclusions(string duns)
+        {
+            var status = GetDunsInfo(duns);
+            var hasKnownExclusion = (status.SelectToken("sam_data.registration.hasKnownExclusion").ToString() == "false");
+            string response = "{\"result\": \"" + hasKnownExclusion.ToString().ToLower() + "\"}";
             return FormatJson(response);
         }
 

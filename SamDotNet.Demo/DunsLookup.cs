@@ -12,7 +12,7 @@ namespace SamDotNet.Demo
             string duns_number = args[1];
 
             Sam sam = new Sam(key);
-            var result = sam.CheckDunsInSam(duns_number);
+            var result = sam.GetDunsInfo(duns_number);
             Console.WriteLine(JsonConvert.SerializeObject(result));
         }
     }
