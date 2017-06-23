@@ -2,15 +2,15 @@
 <package>
     <metadata>
     <id>GSA.SamDotGov.API</id>
-    <version>1.0.0</version>
-    <title>SamDotNet</title>
-    <authors>Mark headd</authors>
-    <owners>Mark Headd</owners>
+    <version>$version$</version>
+    <title>$title</title>
+    <authors>mheadd</authors>
+    <owners>mheadd</owners>
     <licenseUrl>https://github.com/mheadd/SamDotNet/blob/master/LICENSE.md</licenseUrl>
     <projectUrl>https://github.com/mheadd/SamDotNet</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>C# access to the SAM.gov API.</description>
-    <releaseNotes>Initial release.</releaseNotes>
+    <releaseNotes>First release</releaseNotes>
     <copyright>Copyright 2017</copyright>
     </metadata>
 </package>

@@ -10,15 +10,27 @@ namespace SamDotNet
         /// SAM.gov API key
         /// </summary>
         private string _apiKey;
+        private IHTTPClient _client;
 
         /// <summary>
         /// Constructor. Instantiates a new instance of the class.
         /// </summary>
-        /// <param name="client">An instance of the HTTPClient class.</param>
         /// <param name="apiKey">An API ket for querying the SAM.gov API.</param>
         public Sam(string apiKey)
         {
             _apiKey = apiKey;
+            _client = new HTTPClient();
+        }
+
+        /// <summary>
+        /// Constructor. Instantiates a new instance of the class.
+        /// </summary>
+        /// <param name="apiKey">An API ket for querying the SAM.gov API.</param>
+        /// <param name="client">An instance of the HTTPClient class.</param>
+        public Sam(string apiKey, IHTTPClient client)
+        {
+            _apiKey = apiKey;
+            _client = client;
         }
 
         /// <summary>
@@ -55,17 +67,33 @@ namespace SamDotNet
         public JObject CheckDunsInSam(string duns)
         {
             var status = GetDunsInfo(duns);
-            var result = (status.GetValue("sam_data") != null);
-            string response = "{\"result\": \"" + result.ToString().ToLower() + "\"}";
-            return FormatJson(response);
+            try
+            {
+                var result = (status.GetValue("sam_data") != null);
+                string response = "{\"result\": \"" + result.ToString().ToLower() + "\"}";
+                return FormatJson(response);
+            }
+            catch (NullReferenceException)
+            {
+                string response = "{\"error\": \"Element does not exist\"}";
+                return FormatJson(response);
+            }
         }
 
         public JObject CheckForExclusions(string duns)
         {
             var status = GetDunsInfo(duns);
-            var hasKnownExclusion = (status.SelectToken("sam_data.registration.hasKnownExclusion").ToString() == "false");
-            string response = "{\"result\": \"" + hasKnownExclusion.ToString().ToLower() + "\"}";
-            return FormatJson(response);
+            try
+            {
+                var hasKnownExclusion = (status.SelectToken("sam_data.registration.hasKnownExclusion").ToString() == "false");
+                string response = "{\"result\": \"" + hasKnownExclusion.ToString().ToLower() + "\"}";
+                return FormatJson(response);
+            }
+            catch (NullReferenceException)
+            {
+                string response = "{\"error\": \"Element does not exist\"}";
+                return FormatJson(response);
+            }
         }
 
         /// <summary>
@@ -78,11 +106,9 @@ namespace SamDotNet
         {
             try
             {
-                using (HTTPClient client = new HTTPClient(baseUrl))
-                {
-                    string response = client.MakeAPICall(path);
-                    return FormatJson(response);
-                }
+                string response = _client.MakeAPICall(baseUrl, path);
+                return FormatJson(response);
+
             }
             catch (HTTPClientException ex)
             {

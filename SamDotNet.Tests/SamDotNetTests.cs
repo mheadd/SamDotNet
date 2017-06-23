@@ -1,75 +1,88 @@
 using Xunit;
 using SamDotNet.Helpers;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
 
 namespace SamDotNet.Tests
 {
     public class SamClientTests
     {
-        private readonly HTTPClient client = new HTTPClient(Endpoints.SamApiBaseUrl);
-        private readonly string key = "DEMO_KEY";
+        private readonly string _key = "DUMMY_KEY";
+
+        public class TestsHTTPClient : IHTTPClient
+        {
+            public string MakeAPICall(string path, string baseURL)
+            {
+                return "{\"foo\": \"bar\"}";
+            }
+            public void Dispose()
+            {
+            }
+        }
+
+        private IHTTPClient testClient = new TestsHTTPClient(); 
 
         [Fact]
         public void Check_Duns_Info_Method()
         {
             // Assemble
-            Sam testSam = new Sam(key);
+            Sam testSam = new Sam(_key, testClient);
+            var expected = typeof(JObject);
 
             // Act
-            var type = testSam.GetType();
-            MethodInfo methodInfo = type.GetMethod("GetDunsInfo");
+            var actual = testSam.GetDunsInfo("9990009999");
 
             // Assert
-            Assert.NotNull(methodInfo);
+             Assert.IsType(expected, actual);
         }
 
         [Fact]
         public void Check_Sam_Status_Method()
         {
             // Assemble
-            Sam testSam = new Sam(key);
+            Sam testSam = new Sam(_key, testClient);
+            var expected = typeof(JObject);
 
             // Act
-            var type = testSam.GetType();
-            MethodInfo methodInfo = type.GetMethod("GetSamStatus");
+            var actual = testSam.GetSamStatus("9990009999");
 
             // Assert
-            Assert.NotNull(methodInfo);
+             Assert.IsType(expected, actual);
         }
 
         [Fact]
         public void Check_Duns_In_Sam_Method()
         {
             // Assemble
-            Sam testSam = new Sam(key);
+            Sam testSam = new Sam(_key, testClient);
+            var expected = typeof(JObject);
 
             // Act
-            var type = testSam.GetType();
-            MethodInfo methodInfo = type.GetMethod("CheckDunsInSam");
+            var actual = testSam.CheckDunsInSam("9990009999");
 
             // Assert
-            Assert.NotNull(methodInfo);
+             Assert.IsType(expected, actual);
         }
 
         [Fact]
         public void Verify_Not_Excluded_Method()
         {
             // Assemble
-            Sam testSam = new Sam(key);
+            Sam testSam = new Sam(_key, testClient);
+            var expected = typeof(JObject);
 
             // Act
-            var type = testSam.GetType();
-            MethodInfo methodInfo = type.GetMethod("CheckForExclusions");
+            var actual = testSam.CheckForExclusions("9990009999");
 
             // Assert
-            Assert.NotNull(methodInfo);
+             Assert.IsType(expected, actual);
         }
 
         [Fact]
         public void Check_Valid_Http_clinet()
         {
             // Assemble
-            HTTPClient client = new HTTPClient(Endpoints.SamApiBaseUrl);
+            HTTPClient client = new HTTPClient();
 
             // Act
             var type = client.GetType();

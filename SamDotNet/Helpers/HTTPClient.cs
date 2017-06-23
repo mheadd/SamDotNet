@@ -4,9 +4,9 @@ using System.Net.Http.Headers;
 
 namespace SamDotNet.Helpers
 {
-    public interface IHTTPClient: IDisposable
+    public interface IHTTPClient 
     {
-        string MakeAPICall(string path);
+        string MakeAPICall(string path, string baseURL);
     }
 
     public class HTTPClientException : Exception
@@ -15,17 +15,15 @@ namespace SamDotNet.Helpers
     }
     public class HTTPClient : IHTTPClient
     {
-        private string _baseUrl;
-        public HTTPClient(string baseURL)
+        public HTTPClient()
         {
-            _baseUrl = baseURL;
         }
 
-        public string MakeAPICall(string path)
+        public string MakeAPICall(string baseURL, string path)
         {
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri(_baseUrl);
+                client.BaseAddress = new Uri(baseURL);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -44,10 +42,6 @@ namespace SamDotNet.Helpers
                     throw new HTTPClientException("An error occured.");
                 }
             }
-        }
-
-        public void Dispose()
-        {
         }
     }
 }
