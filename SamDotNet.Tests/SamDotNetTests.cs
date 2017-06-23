@@ -9,7 +9,7 @@ namespace SamDotNet.Tests
     {
         private readonly string _key = "DUMMY_KEY";
 
-        public class TestsHTTPClient : IHTTPClient
+        public class TestHTTPClient : IHTTPClient
         {
             public string MakeAPICall(string path, string baseURL)
             {
@@ -20,7 +20,7 @@ namespace SamDotNet.Tests
             }
         }
 
-        private IHTTPClient testClient = new TestsHTTPClient(); 
+        private IHTTPClient testClient = new TestHTTPClient(); 
 
         [Fact]
         public void Check_Duns_Info_Method()

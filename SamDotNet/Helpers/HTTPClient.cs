@@ -13,6 +13,7 @@ namespace SamDotNet.Helpers
     {
         public HTTPClientException(string message) : base(message) { }
     }
+    
     public class HTTPClient : IHTTPClient
     {
         public HTTPClient()
