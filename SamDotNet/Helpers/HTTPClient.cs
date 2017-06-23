@@ -4,16 +4,25 @@ using System.Net.Http.Headers;
 
 namespace SamDotNet.Helpers
 {
+    /// <summary>
+    /// Base class for HTTPClient.
+    /// </summary>
     public interface IHTTPClient 
     {
         string MakeAPICall(string path, string baseURL);
     }
 
+    /// <summary>
+    /// Custom exception class.
+    /// </summary>
     public class HTTPClientException : Exception
     {
         public HTTPClientException(string message) : base(message) { }
     }
     
+    /// <summary>
+    /// HTTPClient class.
+    /// </summary>
     public class HTTPClient : IHTTPClient
     {
         public HTTPClient()
