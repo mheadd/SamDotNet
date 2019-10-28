@@ -1,11 +1,7 @@
-dist: xenial
-addons:
-  snaps:
-  - name: dotnet-sdk
-    classic: true
-    channel: latest/beta
-sudo: required
 language: csharp
+dist: trusty
+sudo: required
 mono: none
+dotnet: 3.0
 script:
   - ./build.sh
