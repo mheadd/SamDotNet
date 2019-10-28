@@ -1,5 +1,4 @@
 ﻿using System;
-using SamDotNet;
 using Newtonsoft.Json;
 
 namespace SamDotNet.Demo
