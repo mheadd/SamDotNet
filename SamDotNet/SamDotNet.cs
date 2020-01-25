@@ -15,7 +15,7 @@ namespace SamDotNet
         /// <summary>
         /// Constructor. Instantiates a new instance of the class.
         /// </summary>
-        /// <param name="apiKey">An API ket for querying the SAM.gov API.</param>
+        /// <param name="apiKey">An API key for querying the SAM.gov API.</param>
         public Sam(string apiKey)
         {
             _apiKey = apiKey;
@@ -97,7 +97,7 @@ namespace SamDotNet
         }
 
         /// <summary>
-        /// Utilty method to make API call.
+        /// Utility method to make API call.
         /// </summary>
         /// <param name="baseUrl">The base URL of the API to be invoked.</param>
         /// <param name="path">The path used to call a particular API method.</param>

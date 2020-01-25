@@ -79,7 +79,7 @@ namespace SamDotNet.Tests
         }
 
         [Fact]
-        public void Check_Valid_Http_clinet()
+        public void Check_Valid_Http_client()
         {
             // Assemble
             HTTPClient client = new HTTPClient();
