@@ -13,7 +13,7 @@ namespace SamDotNet.Helpers
         /// <summary>
         /// The SAM.gov API version to use
         /// </summary>
-        public const string SamApiVersion = "v4";
+        public const string SamApiVersion = "v8";
         /// <summary>
         /// A string for constructing a path to lookup information on a company using a DUNS number.
         /// </summary>
