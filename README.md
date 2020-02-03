@@ -4,10 +4,9 @@
 
 A C# port of the [samwise Ruby gem](https://github.com/18F/samwise) for the SAM.gov API.
 
-
 ## Run tests
 
-```bash
+```shell
 ~$ dotnet test SamDotNet.Tests/SamDotNet.Tests.csproj
 ```
 
@@ -57,14 +56,14 @@ namespace SamDotNet.Demo
 
             Sam sam = new Sam(key);
             var result = sam.GetDunsInfo(duns_number);
-            Console.WriteLine(JsonConvert.SerializeObject(result));
+            Console.WriteLine(JsonConvert.DeserializeObject(result));
         }
     }
 }
 ```
 
 * Invoke thusly: ```~$ dotnet run "DEMO_KEY" "1459697830000" ```
-
+* Note - the result returned by the library is a JSON string. The consumer is responsible for de-serializing the string into a C# object. The example above uses [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/), but you could also use [System.Text.Json](https://docs.microsoft.com/en-us/dotnet/api/system.text.json?view=netcore-3.1) (or another package) as well.
 * Result:
 
 ```json
