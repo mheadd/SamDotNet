@@ -13,7 +13,7 @@ namespace SamDotNet.Demo
             // Instantiate a new object and retrieve DUNS info.
             Sam sam = new Sam(key);
             var result = sam.GetDunsInfo(duns_number);
-            Console.WriteLine(JsonConvert.SerializeObject(result));
+            Console.WriteLine(JsonConvert.DeserializeObject(result));
         }
     }
 }
