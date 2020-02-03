@@ -27,7 +27,7 @@ namespace SamDotNet.Tests
         {
             // Assemble
             Sam testSam = new Sam(_key, testClient);
-            var expected = typeof(JObject);
+            var expected = typeof(string);
 
             // Act
             var actual = testSam.GetDunsInfo("9990009999");
@@ -41,7 +41,7 @@ namespace SamDotNet.Tests
         {
             // Assemble
             Sam testSam = new Sam(_key, testClient);
-            var expected = typeof(JObject);
+            var expected = typeof(string);
 
             // Act
             var actual = testSam.GetSamStatus("9990009999");
@@ -55,7 +55,7 @@ namespace SamDotNet.Tests
         {
             // Assemble
             Sam testSam = new Sam(_key, testClient);
-            var expected = typeof(JObject);
+            var expected = typeof(string);
 
             // Act
             var actual = testSam.CheckDunsInSam("9990009999");
@@ -69,7 +69,7 @@ namespace SamDotNet.Tests
         {
             // Assemble
             Sam testSam = new Sam(_key, testClient);
-            var expected = typeof(JObject);
+            var expected = typeof(string);
 
             // Act
             var actual = testSam.CheckForExclusions("9990009999");

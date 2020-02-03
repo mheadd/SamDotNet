@@ -39,8 +39,8 @@ namespace SamDotNet
         /// <param name="duns">The DUNS number of the company being searched for.</param>
         /// <param name="PathTemplate">Optional: a custom path template for searching the SAM.gov API.</param>
         /// <param name="SamApiVersion">Optional: the SAM.gov API version to use.</param>
-        /// <returns>JSON Object with API response or error message</returns>
-        public JObject GetDunsInfo(string duns, string PathTemplate = Endpoints.DunsInfoPathTemplate, string SamApiVersion = Endpoints.SamApiVersion)
+        /// <returns>JSON String</returns>
+        public String GetDunsInfo(string duns, string PathTemplate = Endpoints.DunsInfoPathTemplate, string SamApiVersion = Endpoints.SamApiVersion)
         {
             var path = BuildPath(PathTemplate, new string[] { SamApiVersion, duns, _apiKey });
             return MakeApiCall(Endpoints.SamApiBaseUrl, path);
@@ -52,8 +52,8 @@ namespace SamDotNet
         /// <param name="duns">The DUNS number of the company being searched for.</param>
         /// <param name="PathTemplate">Optional: a custom path template for searching the SAM.gov API.</param>
         /// <param name="SamApiVersion">Optional: the SAM.gov API version to use.</param>
-        /// <returns>JSON Object with API response or error message</returns>
-        public JObject GetSamStatus(string duns, string PathTemplate = Endpoints.StatusPathTemplate, string SamApiVersion = Endpoints.SamApiVersion)
+        /// <returns>JSON String</returns>
+        public String GetSamStatus(string duns, string PathTemplate = Endpoints.StatusPathTemplate, string SamApiVersion = Endpoints.SamApiVersion)
         {
             var path = BuildPath(PathTemplate, new string[] { duns });
             return MakeApiCall(Endpoints.SamStatusUrl, path);
@@ -63,36 +63,43 @@ namespace SamDotNet
         /// Check if a DUNS number exists in SAM.gov
         /// </summary>
         /// <param name="duns">The DUNS number to check.</param>
-        /// <returns>JSON Object with API response or error message</returns>
-        public JObject CheckDunsInSam(string duns)
+        /// <returns>JSON String</returns>
+        public String CheckDunsInSam(string duns)
         {
             var status = GetDunsInfo(duns);
             try
             {
-                var result = (status.GetValue("sam_data") != null);
+                var obj = JObject.Parse(status);
+                var result = (obj.GetValue("sam_data") != null);
                 string response = "{\"result\": \"" + result.ToString().ToLower() + "\"}";
-                return FormatJson(response);
+                return response;
             }
             catch (NullReferenceException)
             {
                 string response = "{\"error\": \"Element does not exist\"}";
-                return FormatJson(response);
+                return response;
             }
         }
 
-        public JObject CheckForExclusions(string duns)
+        /// <summary>
+        /// Check whether an entity has an exclusion record.
+        /// </summary>
+        /// <param name="duns">The DUNS number to check.</param>
+        /// <returns>JSON String</returns>
+        public String CheckForExclusions(string duns)
         {
             var status = GetDunsInfo(duns);
             try
             {
-                var hasKnownExclusion = (status.SelectToken("sam_data.registration.hasKnownExclusion").ToString() == "false");
+                var obj = JObject.Parse(status);
+                var hasKnownExclusion = (obj.SelectToken("sam_data.registration.hasKnownExclusion").ToString() == "false");
                 string response = "{\"result\": \"" + hasKnownExclusion.ToString().ToLower() + "\"}";
-                return FormatJson(response);
+                return response;
             }
             catch (NullReferenceException)
             {
                 string response = "{\"error\": \"Element does not exist\"}";
-                return FormatJson(response);
+                return response;
             }
         }
 
@@ -101,18 +108,18 @@ namespace SamDotNet
         /// </summary>
         /// <param name="baseUrl">The base URL of the API to be invoked.</param>
         /// <param name="path">The path used to call a particular API method.</param>
-        /// <returns>JSON Object with API response or error message</returns>
-        private JObject MakeApiCall(string baseUrl, string path)
+        /// <returns>JSON String</returns>
+        private String MakeApiCall(string baseUrl, string path)
         {
             try
             {
                 string response = _client.MakeAPICall(baseUrl, path);
-                return FormatJson(response);
+                return response;
 
             }
             catch (HTTPClientException ex)
             {
-                return FormatJson("{\"error\": \"" + ex.Message + "\"}");
+                return "{\"error\": \"" + ex.Message + "\"}";
             }
         }
 
@@ -130,8 +137,8 @@ namespace SamDotNet
         /// <summary>
         /// Utility method to format JSON.
         /// </summary>
-        /// <param name="obj">The object to be converted to JSON.</param>
-        /// <returns>JSON string</returns>
+        /// <param name="str">The string to be converted to JSON Object.</param>
+        /// <returns>JSON Object</returns>
         private JObject FormatJson(string str)
         {
             return JObject.Parse(str);
