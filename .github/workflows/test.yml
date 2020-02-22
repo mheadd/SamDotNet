@@ -17,9 +17,19 @@ jobs:
 
       - name: Build
         run: dotnet build 
-        working-directory: ./SamDotNet
+        working-directory: ./SamDotNet/
             
       - name: Test
         run: dotnet test 
         working-directory: ./SamDotNet.Tests/
+      
+      - name: Create Nuget package
+        run: dotnet pack
+        working-directory: ./SamDotNet/
+      
+      - name: Publish Nuget package
+        run: dotnet nuget push ./*.nupkg -k $nuget_api_key -s "https://api.nuget.org/v3/index.json" --skip-duplicate
+        env:
+          nuget_api_key: ${{ secrets.NUGET_API_KEY }}
+        working-directory: ./bin/Debug/
       
