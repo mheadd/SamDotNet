@@ -1,3 +1,4 @@
+![Build, Test & Publish](https://github.com/mheadd/SamDotNet/workflows/Build,%20Test%20&%20Publish/badge.svg)
 [![Build Status](https://travis-ci.org/mheadd/SamDotNet.svg?branch=master)](https://travis-ci.org/mheadd/SamDotNet)
 
 # SamDotNet
