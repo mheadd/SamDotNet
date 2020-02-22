@@ -71,12 +71,12 @@ namespace SamDotNet
             {
                 var obj = JObject.Parse(status);
                 var result = (obj.GetValue("sam_data") != null);
-                string response = "{\"result\": \"" + result.ToString().ToLower() + "\"}";
+                string response = $@"{{""result"": ""{result.ToString().ToLower()}""}}";
                 return response;
             }
             catch (NullReferenceException)
             {
-                string response = "{\"error\": \"Element does not exist\"}";
+                string response = $@"{{""error"": ""Element does not exist""}}";
                 return response;
             }
         }
@@ -93,12 +93,12 @@ namespace SamDotNet
             {
                 var obj = JObject.Parse(status);
                 var hasKnownExclusion = (obj.SelectToken("sam_data.registration.hasKnownExclusion").ToString() == "false");
-                string response = "{\"result\": \"" + hasKnownExclusion.ToString().ToLower() + "\"}";
+                string response = $@"{{""error"": ""{hasKnownExclusion.ToString().ToLower()}""}}";
                 return response;
             }
             catch (NullReferenceException)
             {
-                string response = "{\"error\": \"Element does not exist\"}";
+                string response = $@"{{""error"": ""Element does not exist""}}";
                 return response;
             }
         }
@@ -119,7 +119,8 @@ namespace SamDotNet
             }
             catch (HTTPClientException ex)
             {
-                return "{\"error\": \"" + ex.Message + "\"}";
+                return $@"{{""error"": ""{ex.Message}""}}";
+                
             }
         }
 
