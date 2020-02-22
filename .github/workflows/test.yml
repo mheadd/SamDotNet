@@ -1,4 +1,4 @@
-name: Run tests
+name: Build, Test & Deploy
 on:
   push:
     branches: 
@@ -8,7 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: actions/setup-dotnet@v1
+        
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
         with:
-            dotnet-version: '3.1.100' 
-      - run: dotnet test SamDotNet.Tests/SamDotNet.Tests.csproj
+          dotnet-version: 3.1.100
+
+      - name: Build
+        run: dotnet build SamDotNet/SamDotNet.csproj
+            
+      - name: Test
+        run: dotnet test SamDotNet.Tests/SamDotNet.Tests.csproj
