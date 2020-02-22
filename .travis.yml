@@ -1,7 +1,0 @@
-language: csharp
-dist: xenial
-sudo: required
-mono: none
-dotnet: 3.0
-script:
-  - ./build.sh
