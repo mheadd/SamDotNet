@@ -13,7 +13,7 @@ namespace SamDotNet.Tests
         {
             public string MakeAPICall(string path, string baseURL)
             {
-                return "{\"foo\": \"bar\"}";
+                return $@"{{""foo"":""bar""}}";
             }
             public void Dispose()
             {
